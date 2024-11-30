@@ -1,0 +1,70 @@
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation: This test suite verifies the functionality of project creation, updating, and deletion, covering both positive and negative test scenarios. The tests ensure proper validation and error handling for CRUD (Create, Read, Update, Delete) operations.
+
+Pre Condition: User is logged in and navigates to the project creation page.
+Post Condition: Projects are successfully created, updated, or deleted, or error messages are displayed for invalid actions.
+Tags: ProjectPage, CRUD, PositiveTest, NegativeTest, Validation
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+ProjectCreationUrl = https://gitlab.com/projects/new
+ValidProjectName = MyFirstProject
+DuplicateProjectName = MyFirstProject
+UpdatedProjectName = UpdatedProjectName123
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+Test Case Title: Create Blank Project
+Steps:
+1. Navigate to the project creation page using ProjectCreationUrl.
+2. Select the "Blank Project" option.
+3. Enter ValidProjectName into the project name field.
+4. Click the "Create Project" button.
+Expected Result:
+- The project is created successfully.
+- A confirmation message is displayed: "Project 'MyFirstProject' was successfully created."
+
+Test Case Title: Create Template Project
+Steps:
+1. Navigate to the project creation page using ProjectCreationUrl.
+2. Select the "Template Project" option.
+3. Enter ValidProjectName into the project name field.
+4. Click the "Create Project" button.
+Expected Result:
+- The project is created successfully.
+- A confirmation message is displayed: "Project 'MyFirstProject' was successfully created."
+
+Test Case Title: Update Name of Template Project
+Steps:
+1. Navigate to the project settings page for the project with name ValidProjectName.
+2. Change the project name to UpdatedProjectName.
+3. Click the "Save Changes" button.
+Expected Result:
+- The project name is updated successfully.
+- A confirmation message is displayed: "Project name updated to 'UpdatedProjectName123'."
+
+Test Case Title: Delete Template Project
+Steps:
+1. Navigate to the project settings page for the project with name ValidProjectName.
+2. Click the "Delete Project" button.
+3. Confirm the deletion in the confirmation dialog.
+Expected Result:
+- The project is deleted successfully.
+- A confirmation message is displayed: "Project 'MyFirstProject' has been deleted."
+
+Test Case Title: Create Blank Project with the Same Name
+Steps:
+1. Navigate to the project creation page using ProjectCreationUrl.
+2. Select the "Blank Project" option.
+3. Enter DuplicateProjectName into the project name field.
+4. Click the "Create Project" button.
+Expected Result:
+- An error message is displayed: "Project with this name already exists."
+- User remains on the project creation page.

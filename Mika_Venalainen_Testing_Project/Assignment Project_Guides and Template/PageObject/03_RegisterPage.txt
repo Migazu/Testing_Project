@@ -1,0 +1,86 @@
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation: This test suite verifies user registration functionality, including valid and invalid credentials. The tests ensure proper validation and error handling for user inputs during registration.
+
+Pre Condition: User is not logged in and navigates to the registration page.
+Post Condition: User is either successfully registered and redirected to the dashboard, or receives a specific error message based on the input.
+Tags: Registration, PositiveTest, NegativeTest, Validation
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+LoginUrl = https://gitlab.com/users/sign_up
+ValidUsername = TestUser123
+ValidEmail = testuser@example.com
+ValidPassword = Password123
+InvalidEmail = invalidemail@domain
+EmptyPassword = ""
+UsedUsername = AlreadyRegisteredUser
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+Test Case Title: Register with Valid Credentials
+Steps:
+1. Navigate to the registration page using LoginUrl.
+2. Enter the following details:
+   - Username: ValidUsername
+   - Email: ValidEmail
+   - Password: ValidPassword
+3. Click the "Register" button.
+Expected Result:
+- User is registered successfully and redirected to the dashboard.
+- Verify that the dashboard is displayed with a welcome message.
+
+Test Case Title: Register with Same Username
+Steps:
+1. Navigate to the registration page using LoginUrl.
+2. Enter the following details:
+   - Username: UsedUsername
+   - Email: ValidEmail
+   - Password: ValidPassword
+3. Click the "Register" button.
+Expected Result:
+- An error message is displayed: "Username already exists."
+- Verify that the user remains on the registration page.
+
+Test Case Title: Register with Empty Password
+Steps:
+1. Navigate to the registration page using LoginUrl.
+2. Enter the following details:
+   - Username: ValidUsername
+   - Email: ValidEmail
+   - Password: EmptyPassword
+3. Click the "Register" button.
+Expected Result:
+- An error message is displayed: "Password is required."
+- Verify that the user remains on the registration page.
+
+Test Case Title: Register with Invalid Email
+Steps:
+1. Navigate to the registration page using LoginUrl.
+2. Enter the following details:
+   - Username: ValidUsername
+   - Email: InvalidEmail
+   - Password: ValidPassword
+3. Click the "Register" button.
+Expected Result:
+- An error message is displayed: "Please enter a valid email address."
+- Verify that the user remains on the registration page.
+
+Test Case Title: Register Without reCAPTCHA
+Steps:
+1. Navigate to the registration page using LoginUrl.
+2. Enter the following details:
+   - Username: ValidUsername
+   - Email: ValidEmail
+   - Password: ValidPassword
+3. Skip the reCAPTCHA verification step.
+4. Click the "Register" button.
+Expected Result:
+- An error message is displayed: "Please complete the CAPTCHA verification."
+- Verify that the user remains on the registration page.

@@ -1,0 +1,76 @@
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation: This test suite verifies the functionality of creating, updating, and deleting issues within a project. The tests cover both positive and negative scenarios and ensure proper validation and error handling.
+
+Pre Condition: A project must be created by the user before creating issues. The user must be logged in and have access to the project page.
+Post Condition: Issues are either successfully created, updated, or deleted, or appropriate error messages are displayed.
+Tags: Issues, CRUD, PositiveTest, NegativeTest, Validation
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+IssueCreationUrl = https://gitlab.com/group-slug-here/project-slug-here/-/issues/new
+FirstIssueTitle = FirstTestIssue
+FirstIssueDescription = Description of the first test issue.
+UpdatedIssueTitle = UpdatedTestIssue
+SecondIssueTitle = SecondTestIssue
+DuplicateIssueTitle = FirstTestIssue
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+Test Case Title: Create First Issue
+Steps:
+1. Navigate to the issue creation page using IssueCreationUrl.
+2. Enter the following details:
+   - Title: FirstIssueTitle
+   - Description: FirstIssueDescription
+3. Click the "Create Issue" button.
+Expected Result:
+- The issue is successfully created and displayed in the issue list.
+- Verify that the issue title and description are correct in the issue details page.
+
+Test Case Title: Update Issue Title
+Steps:
+1. Navigate to the issue details page for the issue titled FirstIssueTitle.
+2. Click the "Edit Issue" button.
+3. Update the title to UpdatedIssueTitle.
+4. Click the "Save Changes" button.
+Expected Result:
+- The issue title is updated successfully.
+- Verify that the updated title (UpdatedIssueTitle) is displayed in the issue list and details page.
+
+Test Case Title: Create Second Issue with Updated Title
+Steps:
+1. Navigate to the issue creation page using IssueCreationUrl.
+2. Enter the following details:
+   - Title: UpdatedIssueTitle (same as the updated title of the first issue).
+   - Description: Description for the second issue.
+3. Click the "Create Issue" button.
+Expected Result:
+- An error message is displayed: "An issue with this title already exists."
+- Verify that the issue creation fails, and the user remains on the issue creation page.
+
+Test Case Title: Delete First Issue
+Steps:
+1. Navigate to the issue details page for the issue titled UpdatedIssueTitle.
+2. Click the "Delete Issue" button.
+3. Confirm the deletion in the confirmation dialog.
+Expected Result:
+- The issue is successfully deleted.
+- Verify that the issue no longer appears in the issue list.
+
+Test Case Title: Create Duplicate Issue Title
+Steps:
+1. Navigate to the issue creation page using IssueCreationUrl.
+2. Enter the following details:
+   - Title: DuplicateIssueTitle (same as FirstIssueTitle).
+   - Description: "This is a duplicate issue."
+3. Click the "Create Issue" button.
+Expected Result:
+- An error message is displayed: "An issue with this title already exists."
+- Verify that the issue creation fails, and the user remains on the issue creation page.
